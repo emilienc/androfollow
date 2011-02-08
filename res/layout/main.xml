@@ -5,35 +5,31 @@ android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 xmlns:android="http://schemas.android.com/apk/res/android"
 >
+
+
+
 <TextView
 android:id="@+id/TVCode"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="EditText"
 android:textSize="18sp"
-android:layout_x="115px"
-android:layout_y="58px"
->
-</TextView>
+android:layout_x="20px"
+android:layout_y="23px"
+/>
 
-<ToggleButton
-android:id="@+id/TBActivate"
-android:layout_width="175px"
-android:layout_height="158px"
-android:text="Button"
-android:layout_x="72px"
-android:layout_y="140px"
->
-</ToggleButton>
-<TextView
-android:id="@+id/widget31"
+
+<ImageButton
+android:id="@+id/IBExit"
+android:src="@drawable/off"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-android:text="Votre code est :"
-android:layout_x="101px"
-android:layout_y="23px"
->
-</TextView>
+android:layout_x="0px"
+android:layout_y="100px"
+/>
+
+
+
 </AbsoluteLayout>
 
 

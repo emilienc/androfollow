@@ -21,13 +21,20 @@ import android.location.Location;
 import android.util.Log;
 
 public class Server {
+	
+	
+	private String m_host = "http://suismoi.heroku.com"; //"http://suismoi.heroku.com";// "http://10.0.2.2:3000";
 
+	String getHost(){
+		return m_host;
+	}
+	
 	 String getCode()
 	  {
 	    HttpClient httpClient = new DefaultHttpClient();
 	    try
 	    {
-	      String url = "http://10.0.2.2:3000/balises/activate.xml";
+	      String url = m_host+"/balises/activate.xml";
 	      Log.d( "followme", "performing get " + url );
 
 	      HttpGet method = new HttpGet( new URI(url) );
@@ -36,6 +43,7 @@ public class Server {
 	      {
 	        //Log.i( "followme", "received " + getResponse(response.getEntity()) );
 	        return getResponse(response.getEntity());
+	      
 	      }
 	      else
 	      {
@@ -46,12 +54,13 @@ public class Server {
 	    } catch (URISyntaxException e) {
 	      Log.e( "ouch", "!!! URISyntaxException " + e.getMessage() );
 	    }
+	    catch (Exception e) { Log.d("getCode","Exception"); }
 		return null;
 	  }
 	 
 	  private String getResponse( HttpEntity entity )
 	  {
-	    String response = "";
+	    String response = null;
 
 	    try
 	    {
@@ -64,14 +73,16 @@ public class Server {
 	     	
 	    }
 	    catch (IOException ioe) {
-	     		Log.d("PromotionServer",ioe.getLocalizedMessage());
+	     		Log.d("Server",ioe.getLocalizedMessage());
 	     	} 
 	    catch (ParserConfigurationException pce) {
-	     		Log.d("PromotionServer","Parse Error");    	
+	     		Log.d("Server","Parse Error");    	
 	     	} 
 	    catch (SAXException se) {
-	     		Log.d("PromotionServer","SAXException");
+	     		Log.d("Server","SAXException");
 	     	}
+	    catch (Exception e) { Log.d("getResponse","Exception"); }
+
 	     	
 	    return response;
 	  }
@@ -84,19 +95,20 @@ public class Server {
 		    HttpClient httpClient = new DefaultHttpClient();
 		    try
 		    {
-		      String url = "http://10.0.2.2:3000/balises/signal?code="+code;
+		      String url = m_host+"/balises/signal?code="+code;
 		      String lat = "&lat="+location.getLatitude();
 		      String lng = "&lng="+location.getLongitude();
 		      Log.d( "followme", "performing get " + url );
 
 		      HttpGet method = new HttpGet( new URI(url+lat+lng) );
-		      HttpResponse response = httpClient.execute(method);
+		      httpClient.execute(method);
 		     
 		    } catch (IOException e) {
 		      Log.e( "ouch", "!!! IOException " + e.getMessage() );
 		    } catch (URISyntaxException e) {
 		      Log.e( "ouch", "!!! URISyntaxException " + e.getMessage() );
 		    }
+		    catch (Exception e) { Log.d("updateLocation","Exception"); }
 
 		  }
 		
