@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FollowMe</string>
+    <string name="app_name">SeeMe</string>
     <string name="item_map">See Map</string>
     <string name="item_code">Share Map</string>
     <string name="yes">Yes</string>
