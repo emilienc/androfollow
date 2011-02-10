@@ -134,7 +134,7 @@ public class LaunchActivity extends Activity {
 		public void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
 			
-				m_server.updateLocation(codeField.getText().toString(),location);
+				m_server.updateLocation(location);
 			
 		}
         }

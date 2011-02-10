@@ -23,10 +23,15 @@ import android.util.Log;
 public class Server {
 	
 	
-	private String m_host = "http://suismoi.heroku.com"; //"http://suismoi.heroku.com";// "http://10.0.2.2:3000";
-
+	private String m_host = "http://10.0.2.2:3000"; //"http://suismoi.heroku.com";// "http://10.0.2.2:3000";
+	private String m_code;
+	
 	String getHost(){
 		return m_host;
+	}
+	
+	String getMapUrl(){
+		return getHost()+"/mobile/check?code=";
 	}
 	
 	 String getCode()
@@ -34,7 +39,7 @@ public class Server {
 	    HttpClient httpClient = new DefaultHttpClient();
 	    try
 	    {
-	      String url = m_host+"/balises/activate.xml";
+	      String url = m_host+"/mobile/activate.xml";
 	      Log.d( "followme", "performing get " + url );
 
 	      HttpGet method = new HttpGet( new URI(url) );
@@ -42,11 +47,11 @@ public class Server {
 	      if ( response != null )
 	      {
 	        //Log.i( "followme", "received " + getResponse(response.getEntity()) );
-	        return getResponse(response.getEntity());
-	      
+	        m_code = getResponse(response.getEntity());
 	      }
 	      else
 	      {
+	    	m_code=null;
 	        Log.i( "followme", "got a null response" );
 	      }
 	    } catch (IOException e) {
@@ -55,7 +60,7 @@ public class Server {
 	      Log.e( "ouch", "!!! URISyntaxException " + e.getMessage() );
 	    }
 	    catch (Exception e) { Log.d("getCode","Exception"); }
-		return null;
+		return m_code;
 	  }
 	 
 	  private String getResponse( HttpEntity entity )
@@ -90,12 +95,12 @@ public class Server {
 	  /** Send GPS position with code regulary to the server*/
 	
 		
-		void updateLocation(String code,Location location)
+		void updateLocation(Location location)
 		  {
 		    HttpClient httpClient = new DefaultHttpClient();
 		    try
 		    {
-		      String url = m_host+"/balises/signal?code="+code;
+		      String url = m_host+"/mobile/signal?code="+m_code;
 		      String lat = "&lat="+location.getLatitude();
 		      String lng = "&lng="+location.getLongitude();
 		      Log.d( "followme", "performing get " + url );
