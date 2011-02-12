@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SuisMoi</string>
+    <string name="item_map">Carte</string>
+    <string name="item_code">Partager</string>
+    <string name="item_exit">Quitter</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="exit">Voulez vous quitter ?</string>
+    <string name="subject">Suis moi sur internet</string>
+    <string name="mail_title">Envoyer un mail ...</string>
+    <string name="txtOn">Ne plus envoyer ma position</string>
+    <string name="txtOff">Envoyer ma position</string>
+    <string name="codeField">Le code de suivi est :</string>
+    <string name="posFielddeb">Vous avez envoyé votre position </string>
+    <string name="posFieldend">fois</string>
+</resources>

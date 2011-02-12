@@ -9,21 +9,22 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 
 public class LaunchActivity extends Activity {
 	
 	
-	private TextView codeField;
-	private ImageButton exitButton;
+	private TextView codeField,posField;
+	private ToggleButton mainButton;
 	private Server m_server;
 	private String m_code;
+	private int m_positions=0;
 	
 	
 	@Override
@@ -36,17 +37,36 @@ public class LaunchActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection    
 		switch (item.getItemId()) {
+		
+		case R.id.menu_exit:
+			final AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+	        alt_bld.setMessage(R.string.exit);
+	        alt_bld.setCancelable(false);  
+	    	alt_bld.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {  
+	    		public void onClick(DialogInterface dialog, int id) {  
+	           	 // Action for 'Yes' Button  
+	           		   finish();
+	               	   return;
+	           	 }  
+
+	           	 });
+	      	 alt_bld.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {  
+	        	 public void onClick(DialogInterface dialog, int id) {  
+	        	 //  Action for 'NO' Button  
+	        	 dialog.cancel();  
+	        	 }  
+	        	 });  
+
+			AlertDialog alert = alt_bld.create();  
+       	 	alert.setIcon(R.drawable.icon);  
+       	 	alert.show();  
+			return true;
+		
 		case R.id.menu_code: 
-			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-			 
-			emailIntent .setType("plain/text");
-			 
-			//emailIntent .putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"webmaster@website.com"});
-			 
-			emailIntent .putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.subject);
-			 
-			emailIntent .putExtra(android.content.Intent.EXTRA_TEXT, R.string.body + m_code);
-			 
+			final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND); 
+			emailIntent .setType("text/html");
+			emailIntent .putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.subject);	 
+			emailIntent .putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml(m_server.getMail()));		 
 			LaunchActivity.this.startActivity(Intent.createChooser(emailIntent,""));
 
 			return true;  
@@ -68,55 +88,22 @@ public class LaunchActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        
-        final AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
-        alt_bld.setMessage(R.string.exit);
-        alt_bld.setCancelable(false);  
-    	alt_bld.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {  
-    		public void onClick(DialogInterface dialog, int id) {  
-           	 // Action for 'Yes' Button  
-           		   finish();
-               	   return;
-           	 }  
-
-           	 });
-      	 alt_bld.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {  
-        	 public void onClick(DialogInterface dialog, int id) {  
-        	 //  Action for 'NO' Button  
-        	 dialog.cancel();  
-        	 }  
-        	 });  
 
         
         codeField = (TextView) findViewById(R.id.TVCode);
-        exitButton = (ImageButton) findViewById(R.id.IBExit);
-        
-        exitButton.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View v) {
-            	 AlertDialog alert = alt_bld.create();  
-
-            	 // Title for AlertDialog  
-
-            	 //alert.setTitle("Title");  
-
-            	 // Icon for AlertDialog  
-
-            	 alert.setIcon(R.drawable.icon);  
-
-            	 alert.show();  
-
-           }});
-            	
-                
-     
+        posField = (TextView) findViewById(R.id.TVPosition);
+        mainButton = (ToggleButton) findViewById(R.id.TBExit);  
         m_server = new Server();
         m_code = m_server.getCode();
-        codeField.setText("Votre Code de suivi est : "+ m_code);
+        codeField.setText(getString(R.string.codeField)+" "+m_code);
+        
+		posField.setText(getString(R.string.posFielddeb)+" "+m_positions+" "+getString(R.string.posFieldend));
         
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener ll = new mylocationlistener();
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 100, ll);
+        
+        
     }
     
     private class mylocationlistener implements LocationListener {
@@ -133,8 +120,12 @@ public class LaunchActivity extends Activity {
 		
 		public void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
-			
+			if ( mainButton.isChecked())
+			{
 				m_server.updateLocation(location);
+				m_positions +=1;
+				posField.setText(getString(R.string.posFielddeb)+" "+m_positions+" "+getString(R.string.posFieldend));
+			}
 			
 		}
         }

@@ -13,6 +13,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -23,7 +24,7 @@ import android.util.Log;
 public class Server {
 	
 	
-	private String m_host = "http://10.0.2.2:3000"; //"http://suismoi.heroku.com";// "http://10.0.2.2:3000";
+	private String m_host = "http://suismoi.heroku.com"; //"http://suismoi.heroku.com";// "http://10.0.2.2:3000";
 	private String m_code;
 	
 	String getHost(){
@@ -116,6 +117,24 @@ public class Server {
 		    catch (Exception e) { Log.d("updateLocation","Exception"); }
 
 		  }
+
+	public String getMail() {
+		 HttpClient httpClient = new DefaultHttpClient();
+		    try
+		    {
+		    	String url = m_host+"/mobile/mail.html?code="+m_code;
+		    	HttpGet method = new HttpGet( new URI(url) );
+		    	HttpResponse response = httpClient.execute(method);
+		    	return EntityUtils.toString(response.getEntity());
+
+		    } catch (IOException e) {
+			      Log.e( "ouch", "!!! IOException " + e.getMessage() );
+			    } catch (URISyntaxException e) {
+			      Log.e( "ouch", "!!! URISyntaxException " + e.getMessage() );
+			    }
+			    catch (Exception e) { Log.d("updateLocation","Exception"); }
+		 return null;
+	}
 		
 	
 	

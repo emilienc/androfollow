@@ -3,10 +3,15 @@
     <string name="app_name">SeeMe</string>
     <string name="item_map">See Map</string>
     <string name="item_code">Share Map</string>
+    <string name="item_exit">Quit</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="exit">Do you want to quit ?</string>
     <string name="subject">Follow me on Internet</string>
-    <string name="body">Go to suismoi.heroku.com and enter the code </string>
     <string name="mail_title">Send mail ...</string>
+    <string name="txtOn">Stop Sending position</string>
+    <string name="txtOff">Start Sending position</string>
+    <string name="codeField">Your Code is :</string>
+    <string name="posFielddeb">You have sent your location </string>
+    <string name="posFieldend">time(s)</string>
 </resources>

@@ -2,7 +2,13 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:id="@+id/menu_map" 
-        android:title="@string/item_map" />
+        android:title="@string/item_map" 
+        android:icon="@android:drawable/ic_menu_myplaces"/>
   <item android:id="@+id/menu_code" 
-        android:title="@string/item_code" />
+        android:title="@string/item_code" 
+        android:icon="@android:drawable/ic_menu_share"/>
+  
+  <item android:id="@+id/menu_exit" 
+        android:title="@string/item_exit" 
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"/>
 </menu>
